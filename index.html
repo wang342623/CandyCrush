@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏大厅</title>
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .menu-container h1 {
+            color: white;
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .menu-container .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .game-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .game-card {
+            width: 280px;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .game-card:nth-child(1) .game-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .game-card:nth-child(2) .game-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .game-card h2 {
+            color: #333;
+            margin: 15px 0 10px;
+            font-size: 24px;
+        }
+        
+        .game-card p {
+            color: #666;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <h1>🎮 游戏大厅</h1>
+        <p class="subtitle">选择你喜欢的游戏开始游玩吧！</p>
+        
+        <div class="game-menu">
+            <a href="match/match3.html" class="game-card">
+                <div class="game-icon">🍬</div>
+                <h2>消消乐</h2>
+                <p>经典三消游戏，匹配相同颜色的糖果来获得高分！</p>
+            </a>
+            
+            <a href="minesweeper/minesweeper.html" class="game-card">
+                <div class="game-icon">💣</div>
+                <h2>扫雷</h2>
+                <p>经典扫雷游戏，找出所有地雷，挑战你的逻辑推理能力！</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
