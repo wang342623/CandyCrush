@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线消消乐</title>
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        
+        #gameBoard {
+            border: 2px solid #000;
+            margin: 20px;
+            background-color: #fff;
+        }
+        
+        .status {
+            font-size: 24px;
+            margin: 20px;
+            text-align: center;
+        }
+        
+        .score {
+            font-size: 20px;
+            margin: 10px;
+        }
+        
+        .timer {
+            font-size: 20px;
+            margin: 10px;
+            color: #f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <button class="back-btn" onclick="location.href='/'">返回菜单</button>
+        <div class="status">
+            <span class="score">分数: <span id="score">0</span></span>
+            <span class="timer">时间: <span id="timer">60</span>秒</span>
+        </div>
+    </div>
+    <div class="game-container">
+        <canvas id="gameBoard" width="400" height="400"></canvas>
+        <div class="game-controls">
+            <button id="restartBtn">重新开始</button>
+        </div>
+    </div>
+
+    <div id="messageModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="messageTitle">提示</h3>
+            <p id="messageText"></p>
+            <div class="modal-buttons">
+                <button id="messageConfirm" class="btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="match3.js"></script>
+</body>
+</html> 
