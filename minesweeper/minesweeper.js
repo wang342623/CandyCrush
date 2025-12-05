@@ -147,9 +147,14 @@ function updateUI() {
             } else if (gameState.revealed[i][j]) {
                 cell.classList.add('revealed');
                 if (gameState.board[i][j] === -1) {
+                    // 地雷
                     cell.classList.add('mine');
                     cell.textContent = '💣';
-                } else if (gameState.board[i][j] > 0) {
+                } else if (gameState.board[i][j] === 0) {
+                    // 数字为0，显示空白（不显示任何内容）
+                    cell.textContent = '';
+                } else {
+                    // 显示数字1-8
                     cell.classList.add('number-' + gameState.board[i][j]);
                     cell.textContent = gameState.board[i][j];
                 }
@@ -212,12 +217,30 @@ function revealCell(row, col) {
     checkWin();
 }
 
-// 递归揭示相邻的空格子
-function revealAdjacentCells(row, col) {
-    // 使用队列而不是递归，避免一次性展开过多
-    const queue = [{row, col}];
+// 递归揭示相邻的空格子（广度优先搜索）
+function revealAdjacentCells(startRow, startCol) {
+    // 使用队列进行广度优先搜索
+    const queue = [];
     const processed = new Set();
     
+    // 将起始位置周围的8个格子加入队列
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            if (i === 0 && j === 0) continue; // 跳过起始位置本身
+            
+            const newRow = startRow + i;
+            const newCol = startCol + j;
+            
+            if (newRow >= 0 && newRow < gameState.rows &&
+                newCol >= 0 && newCol < gameState.cols &&
+                !gameState.revealed[newRow][newCol] &&
+                !gameState.flagged[newRow][newCol]) {
+                queue.push({row: newRow, col: newCol});
+            }
+        }
+    }
+    
+    // 处理队列中的格子
     while (queue.length > 0) {
         const current = queue.shift();
         const key = `${current.row},${current.col}`;
