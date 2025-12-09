@@ -8,15 +8,40 @@ const go = document.querySelector(".go");
 const table = document.querySelector("table");
 // 获取容器
 const box = document.querySelector(".box");
+// 获取游戏信息显示元素
+const gameTimeElement = document.getElementById("gameTime");
+const gameScoreElement = document.getElementById("gameScore");
 // 动画帧ID
 let animationFrameId;
 // 分数
 let score = 0;
 // 当前位置（使用变量存储，避免频繁读取DOM）
 let currentPosition = 0;
+// 游戏开始时间
+let gameStartTime = 0;
+// 基础速度（px/帧）
+let baseSpeed = 0;
+// 速度上限（px/帧）
+const maxSpeed = 8;
+// 速度增长系数（每秒增加的速度）
+const speedIncreaseRate = 0.1;
 // 获取一行的高度（容器高度的25%）
 function getRowHeight() {
   return box.offsetHeight * 0.25;
+}
+// 格式化时间显示（MM:SS）
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+// 更新游戏信息显示
+function updateGameInfo(currentTime) {
+  if (gameStartTime > 0) {
+    const elapsedTime = (currentTime - gameStartTime) / 1000;
+    gameTimeElement.textContent = formatTime(elapsedTime);
+  }
+  gameScoreElement.textContent = score;
 }
 // 游戏开始
 function start() {
@@ -42,12 +67,21 @@ function move() {
     cancelAnimationFrame(animationFrameId);
   }
   
+  // 重置分数
+  score = 0;
+  
+  // 记录游戏开始时间
+  gameStartTime = performance.now();
+  
+  // 初始化游戏信息显示
+  updateGameInfo(gameStartTime);
+  
   // 获取初始位置（一行高度的负值）
   const initialPosition = -getRowHeight();
   currentPosition = initialPosition;
   
-  // 根据容器高度计算移动速度（自适应，单位：px/帧）
-  const speedPerFrame = Math.max(1.5, box.offsetHeight * 0.006);
+  // 根据容器高度计算基础移动速度（自适应，单位：px/帧）
+  baseSpeed = Math.max(1.5, box.offsetHeight * 0.006);
   
   // 上次动画时间
   let lastTime = performance.now();
@@ -58,9 +92,22 @@ function move() {
     const deltaTime = currentTime - lastTime;
     lastTime = currentTime;
     
+    // 计算游戏运行时间（秒）
+    const gameElapsedTime = (currentTime - gameStartTime) / 1000;
+    
+    // 更新游戏信息显示
+    updateGameInfo(currentTime);
+    
+    // 根据游戏运行时间动态计算速度（随时间逐渐加快）
+    // 速度 = 基础速度 + (运行时间 * 速度增长系数)
+    const currentSpeed = Math.min(
+      baseSpeed + (gameElapsedTime * speedIncreaseRate),
+      maxSpeed
+    );
+    
     // 根据时间差调整移动距离（60fps 为基准）
     const frameMultiplier = deltaTime / 16.67; // 16.67ms = 60fps
-    currentPosition += speedPerFrame * frameMultiplier;
+    currentPosition += currentSpeed * frameMultiplier;
     
     // 使用 transform 替代 top，性能更好
     table.style.transform = `translateY(${currentPosition}px)`;
@@ -87,6 +134,9 @@ function move() {
         // 移除事件委托
         table.removeEventListener("click", clickFk);
         table.removeEventListener("touchend", touchFk);
+        // 重置游戏信息显示
+        gameStartTime = 0;
+        updateGameInfo(performance.now());
         // 重新让开始游戏显示出来
         go.style.display = "block";
         return;
@@ -154,6 +204,9 @@ function handleBlockClick(target) {
     // 移除事件委托
     table.removeEventListener("click", clickFk);
     table.removeEventListener("touchend", touchFk);
+    // 重置游戏信息显示
+    gameStartTime = 0;
+    updateGameInfo(performance.now());
     // 重新让开始游戏显示出来
     go.style.display = "block";
   }

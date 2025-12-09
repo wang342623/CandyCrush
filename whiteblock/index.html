@@ -2,7 +2,7 @@
  * @Author: wha wha01707839@alibaba-inc.com
  * @Date: 2025-12-09 14:25:02
  * @LastEditors: wha wha01707839@alibaba-inc.com
- * @LastEditTime: 2025-12-09 14:26:08
+ * @LastEditTime: 2025-12-09 14:42:27
  * @FilePath: /CandyCrush/whiteblock/index.html
  * @Description: 
  * 
@@ -18,10 +18,22 @@
     <link rel="stylesheet" href="./css/index.css" />
   </head>
   <body>
+        <!-- 游戏信息栏 -->
+        <div class="game-info">
+          <div class="info-item">
+            <span class="info-label">时间：</span>
+            <span class="info-value" id="gameTime">00:00</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">积分：</span>
+            <span class="info-value" id="gameScore">0</span>
+          </div>
+        </div>
     <!-- 游戏容器 -->
     <div class="box">
       <!-- 开始按钮 -->
       <div class="go"><a href="#">开始游戏</a></div>
+  
       <!-- 游戏主体区域 -->
       <table></table>
     </div>

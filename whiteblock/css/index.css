@@ -27,6 +27,40 @@ body {
   background-color: white;
 }
 
+.game-info {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.game-info .info-item {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+ .game-info .info-label {
+  margin-right: 5px;
+  color: #666;
+}
+
+.game-info .info-value {
+  font-weight: bold;
+  color: #000;
+  min-width: 50px;
+}
+
 .box .go {
   position: absolute;
   z-index: 9999;
@@ -112,5 +146,17 @@ body {
 @media screen and (max-width: 360px) {
   .box .go a {
     font-size: 20px;
+  }
+  
+  .box .game-info {
+    padding: 8px 12px;
+  }
+  
+  .box .game-info .info-item {
+    font-size: 14px;
+  }
+  
+  .box .game-info .info-value {
+    min-width: 40px;
   }
 }
