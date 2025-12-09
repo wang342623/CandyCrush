@@ -20,9 +20,9 @@ let currentPosition = 0;
 // 游戏开始时间
 let gameStartTime = 0;
 // 基础速度（px/帧）
-let baseSpeed = 0;
+let baseSpeed = 8;
 // 速度上限（px/帧）
-const maxSpeed = 8;
+const maxSpeed = 16;
 // 速度增长系数（每秒增加的速度）
 const speedIncreaseRate = 0.1;
 // 获取一行的高度（容器高度的25%）
@@ -80,8 +80,8 @@ function move() {
   const initialPosition = -getRowHeight();
   currentPosition = initialPosition;
   
-  // 根据容器高度计算基础移动速度（自适应，单位：px/帧）
-  baseSpeed = Math.max(1.5, box.offsetHeight * 0.006);
+  // 使用设置的基础速度（不再重新计算）
+  // baseSpeed 已在第23行设置，这里直接使用
   
   // 上次动画时间
   let lastTime = performance.now();
