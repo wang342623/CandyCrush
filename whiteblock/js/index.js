@@ -182,7 +182,7 @@ function createTr() {
 }
 // 处理方块点击/触摸的通用函数
 function handleBlockClick(target) {
-  // 判断点击的方块index是否为1
+  // 判断点击的方块index是否为1（未按过的黑块）
   if (target.dataset.index == 1) {
     // 点击后改变颜色
     target.style.backgroundColor = "gray";
@@ -190,8 +190,12 @@ function handleBlockClick(target) {
     target.dataset.index = 0;
     // 分数+1
     score++;
+  } else if (target.dataset.index == 0) {
+    // 如果点击的是已按过的黑块（index为0），允许重复按，但不加分，也不结束游戏
+    // 什么都不做，直接返回
+    return;
   } else {
-    // 如果点击的不是需要点击的方块，那么游戏直接结束
+    // 如果点击的不是需要点击的方块（白块），那么游戏直接结束
     // 取消动画帧
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
