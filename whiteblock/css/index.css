@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+.box {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 600px;
+  max-height: 80vh;
+  margin: 0 auto;
+  border: 1px solid black;
+  overflow: hidden;
+  background-color: white;
+}
+
+.box .go {
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+
+.box .go a {
+  font-size: clamp(24px, 8vw, 60px);
+  color: black;
+  font-weight: bold;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.box table {
+  position: relative;
+  /* 让游戏主体区域与容器一样大，并让主体区域向上走一个块的高度 */
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  /* 使用 transform 替代 top，启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* border: 1px solid red; */
+}
+
+.box table tr {
+  display: flex;
+  width: 100%;
+  height: 25%;
+}
+
+.box table td {
+  /* 一个块宽25%,高25% */
+  width: 25%;
+  height: 100%;
+  box-sizing: border-box;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.box table td:first-child {
+  border-left: none;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 480px) {
+  .box {
+    width: 100vw;
+    height: 80vh;
+    max-height: 80vh;
+    border-left: none;
+    border-right: none;
+    margin: 0;
+  }
+
+  body {
+    padding: 0;
+  }
+}
+
+/* 横屏适配 */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .box {
+    height: 90vh;
+    max-height: 90vh;
+  }
+}
+
+/* 小屏幕设备 */
+@media screen and (max-width: 360px) {
+  .box .go a {
+    font-size: 20px;
+  }
+}
