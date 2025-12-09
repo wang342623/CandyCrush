@@ -20,9 +20,9 @@ let currentPosition = 0;
 // 游戏开始时间
 let gameStartTime = 0;
 // 基础速度（px/帧）
-let baseSpeed = 8;
+let baseSpeed = 14;
 // 速度上限（px/帧）
-const maxSpeed = 16;
+const maxSpeed = 28;
 // 速度增长系数（每秒增加的速度）
 const speedIncreaseRate = 0.1;
 // 获取一行的高度（容器高度的25%）
