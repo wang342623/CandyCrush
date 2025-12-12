@@ -7,6 +7,10 @@
 html {
     height: 100vh;
     overflow: hidden;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 body {
@@ -20,6 +24,10 @@ body {
     padding: 20px;
     overflow: hidden;
     position: relative;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .game-header {
