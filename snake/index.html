@@ -1,0 +1,72 @@
+<!--
+ * @Author: wha wha01707839@alibaba-inc.com
+ * @Date: 2025-12-12 16:22:18
+ * @LastEditors: wha wha01707839@alibaba-inc.com
+ * @LastEditTime: 2025-12-12 16:47:12
+ * @FilePath: /CandyCrush/snake/index.html
+ * @Description: 
+ * 
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贪吃蛇游戏</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-header">
+        <!-- <a href="../index.html" class="back-btn">← 返回</a> -->
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">分数</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">最高分</div>
+                <div class="score-value" id="highScore">0</div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="game-controls">
+        <button id="startBtn">开始游戏</button>
+        <button id="pauseBtn" disabled>暂停</button>
+        <button id="resetBtn">重新开始</button>
+    </div>
+
+    <div class="mobile-controls">
+        <div class="direction-controls-title">方向控制</div>
+        <div class="control-pad">
+            <button class="control-btn up" data-direction="up" title="向上">↑</button>
+            <button class="control-btn left" data-direction="left" title="向左">←</button>
+            <button class="control-btn right" data-direction="right" title="向右">→</button>
+            <button class="control-btn down" data-direction="down" title="向下">↓</button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <strong>操作说明：</strong>
+        <span id="desktop-instructions">使用方向键或 WASD 键控制蛇的移动</span>
+        <span id="mobile-instructions">使用下方方向键或滑动屏幕控制蛇的移动</span>
+    </div>
+
+    <div class="modal" id="gameOverModal">
+        <div class="modal-content">
+            <h2>游戏结束！</h2>
+            <p>你的分数：<span id="finalScore">0</span></p>
+            <p id="newRecord" class="new-record">🎉 新纪录！</p>
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="resetGame()">再来一局</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
+

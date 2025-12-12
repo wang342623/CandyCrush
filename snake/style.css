@@ -1,0 +1,488 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.game-header {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.back-btn {
+    padding: 8px 16px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.back-btn:hover {
+    background-color: white;
+    transform: scale(1.05);
+}
+
+.score-board {
+    background: rgba(255, 255, 255, 0.95);
+    padding: clamp(10px, 2vw, 15px) clamp(15px, 3vw, 25px);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: clamp(15px, 3vw, 30px);
+    font-weight: bold;
+}
+
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-label {
+    font-size: clamp(10px, 1.5vw, 12px);
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.score-value {
+    font-size: clamp(18px, 3vw, 24px);
+    color: #333;
+}
+
+#gameCanvas {
+    border: 4px solid #fff;
+    border-radius: 12px;
+    background-color: #1a1a2e;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    display: block;
+    max-width: 100%;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.game-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+.game-controls button {
+    padding: 12px 24px;
+    font-size: clamp(12px, 2vw, 16px);
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    flex: 1;
+    min-width: 100px;
+    max-width: 150px;
+    white-space: nowrap;
+}
+
+.game-controls button:hover:not(:disabled) {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.game-controls button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.game-controls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.mobile-controls {
+    display: block;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 300px;
+    flex-shrink: 0;
+}
+
+.control-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    aspect-ratio: 1;
+}
+
+.control-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    font-size: clamp(20px, 4vw, 28px);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.control-btn:active {
+    background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+    transform: scale(0.95) translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.control-btn.up {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.control-btn.down {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.control-btn.left {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.control-btn.right {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+}
+
+.modal-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.modal-content p {
+    color: #666;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.modal-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-buttons button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.instructions {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 15px;
+    max-width: 600px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+#mobile-instructions {
+    display: none;
+}
+
+.show-mobile {
+    display: inline !important;
+}
+
+.hide-desktop {
+    display: none !important;
+}
+
+.new-record {
+    display: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.new-record.show {
+    display: block;
+}
+
+.direction-controls-title {
+    text-align: center;
+    color: white;
+    font-size: clamp(12px, 2vw, 16px);
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 8px 5px;
+        height: 100vh;
+        max-height: 100vh;
+    }
+
+    .game-header {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 5px;
+        padding: 5px;
+    }
+
+    .back-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .score-board {
+        width: 100%;
+        justify-content: space-around;
+        padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 12px);
+        gap: clamp(10px, 2vw, 20px);
+    }
+
+    .score-label {
+        font-size: clamp(9px, 1.8vw, 11px);
+        margin-bottom: 2px;
+    }
+
+    .score-value {
+        font-size: clamp(14px, 2.5vw, 18px);
+    }
+
+    #gameCanvas {
+        border-width: 2px;
+        margin: 0;
+    }
+
+    .game-controls {
+        width: 100%;
+        margin-top: 8px;
+        gap: 6px;
+        max-width: 100%;
+    }
+
+    .game-controls button {
+        flex: 1;
+        min-width: 0;
+        padding: clamp(6px, 2vw, 10px) clamp(8px, 2vw, 12px);
+        font-size: clamp(11px, 2.5vw, 14px);
+        max-width: none;
+    }
+
+    .mobile-controls {
+        margin-top: 8px;
+        max-width: min(220px, 50vw);
+        width: 100%;
+    }
+
+    .direction-controls-title {
+        font-size: clamp(10px, 2.5vw, 14px);
+        margin-bottom: 6px;
+    }
+
+    .control-pad {
+        gap: clamp(4px, 1vw, 8px);
+    }
+
+    .control-btn {
+        font-size: clamp(16px, 3.5vw, 24px);
+        border-radius: clamp(6px, 1.5vw, 10px);
+    }
+
+    .instructions {
+        font-size: 10px;
+        padding: 8px;
+        margin-top: 8px;
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+        height: 100vh;
+        max-height: 100vh;
+    }
+
+    .game-header {
+        margin-bottom: 3px;
+        gap: 5px;
+        padding: 3px;
+    }
+
+    .back-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .score-board {
+        gap: clamp(8px, 1.5vw, 12px);
+        padding: clamp(5px, 1.2vw, 8px) clamp(6px, 1.5vw, 10px);
+    }
+
+    .score-label {
+        font-size: clamp(7px, 1.5vw, 10px);
+        margin-bottom: 1px;
+    }
+
+    .score-value {
+        font-size: clamp(12px, 2.2vw, 16px);
+    }
+
+    #gameCanvas {
+        border-width: 2px;
+    }
+
+    .game-controls {
+        margin-top: 5px;
+        gap: 4px;
+        max-width: 100%;
+    }
+
+    .game-controls button {
+        flex: 1;
+        min-width: 0;
+        padding: clamp(5px, 1.5vw, 8px) clamp(6px, 1.5vw, 10px);
+        font-size: clamp(10px, 2vw, 12px);
+        max-width: none;
+    }
+
+    .mobile-controls {
+        margin-top: 5px;
+        max-width: min(200px, 45vw);
+        width: 100%;
+    }
+
+    .direction-controls-title {
+        font-size: clamp(9px, 2vw, 12px);
+        margin-bottom: 4px;
+    }
+
+    .control-pad {
+        gap: clamp(3px, 0.8vw, 6px);
+    }
+
+    .control-btn {
+        font-size: clamp(14px, 3vw, 20px);
+        border-radius: clamp(5px, 1.2vw, 8px);
+    }
+
+    .instructions {
+        display: none;
+    }
+
+    .modal-content {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .modal-content p {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .modal-buttons {
+        margin-top: 15px;
+        gap: 10px;
+    }
+
+    .modal-buttons button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
