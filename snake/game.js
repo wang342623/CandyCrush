@@ -8,6 +8,8 @@ const resetBtn = document.getElementById('resetBtn');
 const gameOverModal = document.getElementById('gameOverModal');
 const finalScoreElement = document.getElementById('finalScore');
 const newRecordElement = document.getElementById('newRecord');
+const speedSlider = document.getElementById('speedSlider');
+const speedValue = document.getElementById('speedValue');
 
 // 游戏配置
 const GRID_SIZE = 20;
@@ -24,6 +26,7 @@ let highScore = 0;
 let gameRunning = false;
 let gamePaused = false;
 let gameLoop = null;
+let gameSpeed = 250; // 默认速度（毫秒）
 
 // 触摸控制
 let touchStartX = 0;
@@ -269,6 +272,24 @@ function gameStep() {
     }
 }
 
+// 更新游戏速度
+function updateGameSpeed() {
+    const speedLevel = parseInt(speedSlider.value);
+    speedValue.textContent = speedLevel;
+    
+    // 速度等级转换为毫秒（1-10级，对应500-100毫秒）
+    // 等级越高，速度越快（间隔越小）
+    gameSpeed = 550 - (speedLevel * 50);
+    
+    // 如果游戏正在运行，需要重新设置interval
+    if (gameRunning && !gamePaused) {
+        if (gameLoop) {
+            clearInterval(gameLoop);
+        }
+        gameLoop = setInterval(gameStep, gameSpeed);
+    }
+}
+
 // 开始游戏
 function startGame() {
     if (!gameRunning) {
@@ -276,7 +297,7 @@ function startGame() {
         gamePaused = false;
         startBtn.disabled = true;
         pauseBtn.disabled = false;
-        gameLoop = setInterval(gameStep, 150);
+        updateGameSpeed(); // 使用当前速度设置
     }
 }
 
@@ -436,6 +457,9 @@ startBtn.addEventListener('click', startGame);
 pauseBtn.addEventListener('click', pauseGame);
 resetBtn.addEventListener('click', resetGame);
 
+// 速度滑块事件
+speedSlider.addEventListener('input', updateGameSpeed);
+
 // 检测移动设备
 function detectMobile() {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -462,5 +486,6 @@ window.addEventListener('load', () => {
     loadHighScore();
     initGame();
     detectMobile();
+    updateGameSpeed(); // 初始化速度显示
 });
 

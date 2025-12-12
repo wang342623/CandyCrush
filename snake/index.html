@@ -33,6 +33,11 @@
 
     <canvas id="gameCanvas"></canvas>
 
+    <div class="speed-control">
+        <label for="speedSlider" class="speed-label">速度：<span id="speedValue">5</span></label>
+        <input type="range" id="speedSlider" min="1" max="10" value="5" step="1">
+    </div>
+
     <div class="game-controls">
         <button id="startBtn">开始游戏</button>
         <button id="pauseBtn" disabled>暂停</button>
